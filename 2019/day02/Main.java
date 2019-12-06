@@ -35,11 +35,37 @@ public class Main{
         System.out.println(process(readString("2,4,4,5,99,0")));
         System.out.println(process(readString("1,1,1,4,99,5,6,0,99")));
         System.out.println("processing real input");
-        List<Integer> l = readString(br.readLine());
+        String originalInput = br.readLine();
+        List<Integer> l = readString(originalInput);
         l.set(1,12);
         l.set(2,2);
         System.out.println(process(l));
 
+        // part 2: we'll do it brute force :)
+        boolean found = false;
+        int finalNoun = 0;
+        int finalVerb = 0;
+        for(int noun = 0; noun <100 && !found; noun++){
+            for(int verb = 0; verb<100 && !found; verb++){
+                List<Integer> attempt = readString(originalInput);
+                attempt.set(1,noun);
+                attempt.set(2,verb);
+                List<Integer> processed = process(attempt);
+                if(processed.get(0) == 19690720){
+                    found = true;
+                    finalNoun = noun;
+                    finalVerb = verb;
+
+                }
+            }
+        }
+        System.out.println(String.format("Found it for verb %d and noun %d",finalVerb,finalNoun));
+        System.out.println(String.format("Answer is %d", 100*finalNoun + finalVerb));
+        System.out.println("Doublecheck:");
+        List<Integer> check = readString(originalInput);
+        check.set(1,finalNoun);
+        check.set(2,finalVerb);
+        System.out.println(process(check).get(0));
 
     }
 
